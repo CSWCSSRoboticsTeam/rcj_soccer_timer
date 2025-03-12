@@ -35,14 +35,18 @@
             align-items: center;
             margin: 10px;
             padding: 10px;
-            width: 250px;
+            width: 40%;
             border-radius: 5px;
+        }
+
+        .teamSub {
+            width: 100%;
         }
 
         .team-name {
             font-size: 24px;
             font-weight: bold;
-            width: 250px;
+            width: 100%;
             border: none;
             background: none;
             text-align: center;
@@ -51,8 +55,17 @@
 
         .team-counter {
             font-size: 36px;
-            margin-left: 20px;
+            margin-left: 0px;
             text-align: center;
+        }
+
+        .team-count-button {
+            /**/
+        }
+
+        .team-counter-value {
+            margin-left: 10px;
+            margin-right: 10px;
         }
 
         #team-yellow {
@@ -68,11 +81,12 @@
         .timer-container {
             display: flex;
             justify-content: center;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         .main-timer-container {
-            margin-bottom: 40px;
+            margin-top: 15px;
+            margin-bottom: 15px;
             text-align: center;
         }
 
@@ -132,12 +146,12 @@
 
     <div class="teams-container">
         <div class="team" id="team-yellow">
-            <div id="team1">
-                <input type="text" class="team-name" value="爆炸" />
+            <div class="teamSub" id="team1">
+                <input type="text" class="team-name" value="Explosion" />
                 <div class="team-counter">
-                    <button id="team1DecrementButton" onclick="goalTrackers[0].decrementGoalCount()" disabled>-</button>
-                    <span id="team1GoalCount">0</span>
-                    <button id="team1IncrementButton" onclick="goalTrackers[0].incrementGoalCount()">+</button>
+                    <button class="team-count-button" id="team1DecrementButton" onclick="goalTrackers[0].decrementGoalCount()" disabled>-</button>
+                    <span class="team-counter-value" id="team1GoalCount">0</span>
+                    <button class="team-count-button" id="team1IncrementButton" onclick="goalTrackers[0].incrementGoalCount()">+</button>
                 </div>
             </div>
         </div>
@@ -145,12 +159,12 @@
         <button id="swapButton" class="button" onclick="swapTeams()">Swap Teams</button>
 
         <div class="team" id="team-blue">
-            <div id="team2">
+            <div class="teamSub" id="team2">
                 <input type="text" class="team-name" value="中山大笨象" />
                 <div class="team-counter">
-                    <button id="team2DecrementButton" onclick="goalTrackers[1].decrementGoalCount()" disabled>-</button>
-                    <span id="team2GoalCount">0</span>
-                    <button id="team2IncrementButton" onclick="goalTrackers[1].incrementGoalCount()">+</button>
+                    <button class="team-count-button" id="team2DecrementButton" onclick="goalTrackers[1].decrementGoalCount()" disabled>-</button>
+                    <span class="team-counter-value" id="team2GoalCount">0</span>
+                    <button class="team-count-button" id="team2IncrementButton" onclick="goalTrackers[1].incrementGoalCount()">+</button>
                 </div>
             </div>
         </div>
@@ -257,34 +271,45 @@
                 this.toggleButtonId = toggleButtonId;
                 this.timerInterval = null;
                 this.timerRunning = false;
+
+                this.timerActiveColor = "black";
+                this.timerDeactiveColor = "gray";
             }
 
-            updateTimer() {
+            #updateTimer() {
                 const minutes = Math.floor(this.timeLeft / 60);
-                const seconds = this.timeLeft % 60;
+                const seconds = (this.timeLeft % 60);
                 document.getElementById(this.remainingTimeId).textContent =
                     `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
             }
 
             startTimer() {
-                this.timerRunning = true;
-                this.timerInterval = setInterval(() => {
-                    if (this.timeLeft > 0) {
-                        this.timeLeft--;
-                        this.updateTimer();
-                    } else {
-                        resetTimer();
-                    }
-                }, 1000);
+                this.resumeTimer();
             }
 
             pauseTimer() {
+                if (!this.timerRunning) {
+                    return;
+                }
                 clearInterval(this.timerInterval);
                 this.timerRunning = false;
             }
 
             resumeTimer() {
-                this.startTimer();
+                document.getElementById(this.remainingTimeId).style.color =
+                    this.timerActiveColor;
+                if (this.timerRunning) {
+                    return;
+                }
+                this.timerRunning = true;
+                this.timerInterval = setInterval(() => {
+                    if (this.timeLeft > 0) {
+                        this.timeLeft--;
+                        this.#updateTimer();
+                    } else {
+                        this.resetTimer();
+                    }
+                }, 1000);
             }
 
             toggleTimer() {
@@ -309,7 +334,9 @@
                     this.timerInterval = null;
                 }
                 this.timeLeft = this.totalTime;
-                this.updateTimer();
+                document.getElementById(this.remainingTimeId).style.color =
+                    this.timerDeactiveColor;
+                this.#updateTimer();
                 this.timerRunning = false;
                     document.getElementById(this.toggleButtonId).textContent =
                         "⏵";
