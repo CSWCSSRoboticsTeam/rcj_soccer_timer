@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RCJ Soccer Match Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        #description {
+            display: flex;
+            text-align: center;
+            border: none;
+            width: 100%;
+            font-size: 48px;
+        }
+
+        .teams-container {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            margin-top: 20px;
+        }
+
+        .team {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            padding: 10px;
+            width: 250px;
+            border-radius: 5px;
+        }
+
+        .team-name {
+            font-size: 24px;
+            font-weight: bold;
+            width: 250px;
+            border: none;
+            background: none;
+            text-align: center;
+            color: inherit;
+        }
+
+        .team-counter {
+            font-size: 36px;
+            margin-left: 20px;
+            text-align: center;
+        }
+
+        #team-yellow {
+            background-color: yellow;
+            color: black;
+        }
+
+        #team-blue {
+            background-color: blue;
+            color: white;
+        }
+
+        .timer-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .main-timer-container {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .main-timer-container .timer-display {
+            font-size: 50px;
+            font-weight: bold;
+        }
+
+        .penalty-timer {
+            margin: 0 10px;
+            text-align: center;
+        }
+
+        .timer-display {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            justify-content: center;
+        }
+
+        .button {
+            padding: 5px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .button:disabled {
+            background-color: #ccc;
+        }
+
+        #swapButton {
+            font-size: 18px;
+            background-color: #e67e22;
+            align-self: center;
+        }
+
+        .author-label {
+            margin-top: 20px;
+            font-size: 12px;
+            color: gray;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <input type="text" id="description" value="HK Soccer Robotics Invitational"/>
+
+    <div class="teams-container">
+        <div class="team" id="team-yellow">
+            <div id="team1">
+                <input type="text" class="team-name" value="爆炸" />
+                <div class="team-counter">
+                    <button id="team1DecrementButton" onclick="goalTrackers[0].decrementGoalCount()" disabled>-</button>
+                    <span id="team1GoalCount">0</span>
+                    <button id="team1IncrementButton" onclick="goalTrackers[0].incrementGoalCount()">+</button>
+                </div>
+            </div>
+        </div>
+
+        <button id="swapButton" class="button" onclick="swapTeams()">Swap Teams</button>
+
+        <div class="team" id="team-blue">
+            <div id="team2">
+                <input type="text" class="team-name" value="中山大笨象" />
+                <div class="team-counter">
+                    <button id="team2DecrementButton" onclick="goalTrackers[1].decrementGoalCount()" disabled>-</button>
+                    <span id="team2GoalCount">0</span>
+                    <button id="team2IncrementButton" onclick="goalTrackers[1].incrementGoalCount()">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-timer-container">
+        <div>
+            <span>Main Timer</span>
+            <div id="mainTimer" class="timer-display">00:00</div>
+            <div class="controls">
+                <button id="mainTimerToggleButton" class="button" onclick="mainTimer.toggleTimer()">⏵</button>
+                <button class="button" onclick="mainTimer.resetTimer()">⟳</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="timer-container">
+        <div class="penalty-timer">
+            <span>Robot 1</span>
+            <div id="penaltyTimer1" class="timer-display">00:00</div>
+            <div class="controls">
+                <button id="penaltyTimer1toggleButton" class="button" onclick="penaltyTimers[0].toggleTimer()">⏵</button>
+                <button class="button" onclick="penaltyTimers[0].resetTimer()">⟳</button>
+            </div>
+        </div>
+
+        <div class="penalty-timer">
+            <span>Robot 2</span>
+            <div id="penaltyTimer2" class="timer-display">00:00</div>
+            <div class="controls">
+                <button id="penaltyTimer2toggleButton" class="button" onclick="penaltyTimers[1].toggleTimer()">⏵</button>
+                <button class="button" onclick="penaltyTimers[1].resetTimer()">⟳</button>
+            </div>
+        </div>
+
+        <div class="penalty-timer">
+            <span>Robot 3</span>
+            <div id="penaltyTimer3" class="timer-display">00:00</div>
+            <div class="controls">
+                <button id="penaltyTimer3toggleButton" class="button" onclick="penaltyTimers[2].toggleTimer()">⏵</button>
+                <button class="button" onclick="penaltyTimers[2].resetTimer()">⟳</button>
+            </div>
+        </div>
+
+        <div class="penalty-timer">
+            <span>Robot 4</span>
+            <div id="penaltyTimer4" class="timer-display">00:00</div>
+            <div class="controls">
+                <button id="penaltyTimer4toggleButton" class="button" onclick="penaltyTimers[3].toggleTimer()">⏵</button>
+                <button class="button" onclick="penaltyTimers[3].resetTimer()">⟳</button>
+            </div>
+        </div>
+    </div>
+
+    <span class="author-label">2025 CSWCSS Robotics Team</span>
+
+    <script>
+        const MAIN_TIME = 10 * 60; // 10 minutes game time
+        const PENALTY_TIME = 60; // 60 seconds penalty time
+
+        class GoalTracker {
+            constructor(teamGoalCountId, decrementButtonId, incrementButtonId) {
+                this.teamGoalCountId = teamGoalCountId;
+                this.decrementButtonId = decrementButtonId;
+                this.incrementButtonId = incrementButtonId;
+                this.goals = 0;
+            }
+
+            getGoalCount() {
+                return this.goals;
+            }
+
+            updateGoalDisplay() {
+                document.getElementById(this.teamGoalCountId).textContent = this.goals;
+                if (this.decrementButtonId != null) {
+                    document.getElementById(this.decrementButtonId).disabled = (this.goals == 0);
+                }
+            }
+
+            incrementGoalCount() {
+                this.goals++;
+                this.updateGoalDisplay();
+            }
+
+            decrementGoalCount() {
+                if (this.goals <= 0) {
+                    return;
+                }
+                this.goals--;
+                this.updateGoalDisplay();
+            }
+        }
+
+        let goalTrackers = [
+            new GoalTracker("team1GoalCount", "team1DecrementButton", "team1IncrementButton"),
+            new GoalTracker("team2GoalCount", "team2DecrementButton", "team2IncrementButton")
+        ];
+
+        class CountdownTimer {
+            constructor(totalTime, remainingTimeId, toggleButtonId) {
+                this.totalTime = totalTime;
+                this.timeLeft = totalTime;
+                this.remainingTimeId = remainingTimeId;
+                this.toggleButtonId = toggleButtonId;
+                this.timerInterval = null;
+                this.timerRunning = false;
+            }
+
+            updateTimer() {
+                const minutes = Math.floor(this.timeLeft / 60);
+                const seconds = this.timeLeft % 60;
+                document.getElementById(this.remainingTimeId).textContent =
+                    `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            }
+
+            startTimer() {
+                this.timerRunning = true;
+                this.timerInterval = setInterval(() => {
+                    if (this.timeLeft > 0) {
+                        this.timeLeft--;
+                        this.updateTimer();
+                    } else {
+                        resetTimer();
+                    }
+                }, 1000);
+            }
+
+            pauseTimer() {
+                clearInterval(this.timerInterval);
+                this.timerRunning = false;
+            }
+
+            resumeTimer() {
+                this.startTimer();
+            }
+
+            toggleTimer() {
+                if (this.timerRunning) {
+                    this.pauseTimer();
+                    document.getElementById(this.toggleButtonId).textContent =
+                        "⏵";
+                } else {
+                    this.resumeTimer();
+                    document.getElementById(this.toggleButtonId).textContent =
+                        "⏸";
+                }
+            }
+
+            isTimerRunning() {
+                return this.timerRunning;
+            }
+
+            resetTimer() {
+                if (this.timerInterval != null) {
+                    clearInterval(this.timerInterval);
+                    this.timerInterval = null;
+                }
+                this.timeLeft = this.totalTime;
+                this.updateTimer();
+                this.timerRunning = false;
+                    document.getElementById(this.toggleButtonId).textContent =
+                        "⏵";
+            }
+
+            setTotalTime(totalTime) {
+                this.totalTime = totalTime;
+                resetTimer();
+            }
+
+            getTotalTime() {
+                return this.totalTime;
+            }
+        }
+
+        let mainTimer = new CountdownTimer(MAIN_TIME, "mainTimer", "mainTimerToggleButton");
+        let penaltyTimers = [
+            new CountdownTimer(PENALTY_TIME, "penaltyTimer1", "penaltyTimer1toggleButton"),
+            new CountdownTimer(PENALTY_TIME, "penaltyTimer2", "penaltyTimer2toggleButton"),
+            new CountdownTimer(PENALTY_TIME, "penaltyTimer3", "penaltyTimer3toggleButton"),
+            new CountdownTimer(PENALTY_TIME, "penaltyTimer4", "penaltyTimer4toggleButton")
+        ];
+
+        function swapTeams() {
+            let teamYellow = document.getElementById("team-yellow");
+            let teamBlue = document.getElementById("team-blue");
+
+            let team1 = document.getElementById("team1");
+            let team2 = document.getElementById("team2");
+
+            let teamAtYellow;
+            let teamAtBlue;
+
+            if (teamYellow.contains(team1)) {
+                // currently yellow = team1, blue = team2
+                // we want yellow = team2, blue = team1
+                teamAtYellow = team1;
+                teamAtBlue = team2;
+            } else {
+                // currently yellow = team2, blue = team1
+                // we want yellow = team1, blue = team2
+                teamAtYellow = team2;
+                teamAtBlue = team1;
+            }
+
+            teamBlue.appendChild(teamYellow.removeChild(teamAtYellow));
+            teamYellow.appendChild(teamBlue.removeChild(teamAtBlue));
+        }
+
+        mainTimer.resetTimer();
+        penaltyTimers.forEach(penaltyTimer => {
+            penaltyTimer.resetTimer();
+        });
+    </script>
+
+</body>
+</html>
