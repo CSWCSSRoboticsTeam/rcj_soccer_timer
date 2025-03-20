@@ -25,7 +25,7 @@
             </div>
         </div>
 
-        <button id="swapButton" class="button" onclick="swapTeams()">Swap Teams</button>
+        <button id="teamSwapButton" onclick="swapTeams()">Swap Teams</button>
 
         <div class="team" id="team-blue">
             <div class="teamSub" id="team2">
@@ -44,8 +44,8 @@
             <span>Main Timer</span>
             <div id="mainTimer" class="timer-display">00:00</div>
             <div class="controls">
-                <button id="mainTimerToggleButton" class="button" onclick="mainTimer.toggleTimer()">⏵</button>
-                <button class="button" onclick="mainTimer.resetTimer()">⟳</button>
+                <button id="mainTimerToggleButton" class="timer-toggle-button" onclick="mainTimer.toggleTimer()">⏵</button>
+                <button id="mainTimerResetButton" class="timer-reset-button" onclick="mainTimer.resetTimer()">⟳</button>
             </div>
         </div>
     </div>
@@ -55,8 +55,8 @@
             <span>Robot 1</span>
             <div id="penaltyTimer1" class="timer-display">00:00</div>
             <div class="controls">
-                <button id="penaltyTimer1toggleButton" class="button" onclick="penaltyTimers[0].toggleTimer()">⏵</button>
-                <button class="button" onclick="penaltyTimers[0].resetTimer()">⟳</button>
+                <button id="penaltyTimer1toggleButton" class="timer-toggle-button" onclick="penaltyTimers[0].toggleTimer()">⏵</button>
+                <button id="penaltyTimer1resetButton" class="timer-reset-button" onclick="penaltyTimers[0].resetTimer()">⟳</button>
             </div>
         </div>
 
@@ -64,8 +64,8 @@
             <span>Robot 2</span>
             <div id="penaltyTimer2" class="timer-display">00:00</div>
             <div class="controls">
-                <button id="penaltyTimer2toggleButton" class="button" onclick="penaltyTimers[1].toggleTimer()">⏵</button>
-                <button class="button" onclick="penaltyTimers[1].resetTimer()">⟳</button>
+                <button id="penaltyTimer2toggleButton" class="timer-toggle-button" onclick="penaltyTimers[1].toggleTimer()">⏵</button>
+                <button id="penaltyTimer2resetButton" class="timer-reset-button" onclick="penaltyTimers[1].resetTimer()">⟳</button>
             </div>
         </div>
 
@@ -73,8 +73,8 @@
             <span>Robot 3</span>
             <div id="penaltyTimer3" class="timer-display">00:00</div>
             <div class="controls">
-                <button id="penaltyTimer3toggleButton" class="button" onclick="penaltyTimers[2].toggleTimer()">⏵</button>
-                <button class="button" onclick="penaltyTimers[2].resetTimer()">⟳</button>
+                <button id="penaltyTimer3toggleButton" class="timer-toggle-button" onclick="penaltyTimers[2].toggleTimer()">⏵</button>
+                <button id="penaltyTimer3resetButton" class="timer-reset-button" onclick="penaltyTimers[2].resetTimer()">⟳</button>
             </div>
         </div>
 
@@ -82,8 +82,8 @@
             <span>Robot 4</span>
             <div id="penaltyTimer4" class="timer-display">00:00</div>
             <div class="controls">
-                <button id="penaltyTimer4toggleButton" class="button" onclick="penaltyTimers[3].toggleTimer()">⏵</button>
-                <button class="button" onclick="penaltyTimers[3].resetTimer()">⟳</button>
+                <button id="penaltyTimer4toggleButton" class="timer-toggle-button" onclick="penaltyTimers[3].toggleTimer()">⏵</button>
+                <button id="penaltyTimer4resetButton" class="timer-reset-button" onclick="penaltyTimers[3].resetTimer()">⟳</button>
             </div>
         </div>
     </div>

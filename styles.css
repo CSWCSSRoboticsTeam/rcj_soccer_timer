@@ -61,7 +61,31 @@ body {
 }
 
 .team-count-button {
-    /**/
+    background-color: #D0D0D0;
+    color: #404040;
+    border: none;
+    border-radius: 5px;
+    width: 20px;
+    height: 20px;
+    transition-duration: 0.15s;
+}
+
+.team-count-button:hover {
+    background-color: #F0F0F0;
+    color: #202020;
+    cursor: pointer;
+}
+
+.team-count-button:active {
+    background-color: #A0A0A0;
+    color: #000000;
+}
+
+.team-count-button:disabled {
+    background-color: #D0D0D0;
+    color: #404040;
+    opacity: 50%;
+    cursor: not-allowed;
 }
 
 .team-counter-value {
@@ -113,24 +137,51 @@ body {
     justify-content: center;
 }
 
-.button {
+.timer-toggle-button, .timer-reset-button, #teamSwapButton {
     padding: 5px 15px;
-    font-size: 14px;
     cursor: pointer;
-    background-color: #3498db;
-    color: white;
     border: none;
     border-radius: 5px;
+    transition-duration: 0.2s;
 }
 
-.button:disabled {
-    background-color: #ccc;
+.timer-toggle-button, .timer-reset-button {
+    background-color: #3498DB;
+    color: #FFFFFF;
+    font-size: 16px;
+    width: 45px;
 }
 
-#swapButton {
+.timer-toggle-button:hover, .timer-reset-button:hover {
+    background-color: #3CB1FF;
+    cursor: pointer;
+}
+
+.timer-toggle-button:active, .timer-reset-button:active {
+    background-color: #2777AD;
+}
+
+.timer-toggle-button:disabled, .timer-reset-button:disabled {
+    background-color: #3498DB;
+    color: #FFFFFF;
+    opacity: 50%;
+    cursor: default;
+}
+
+#teamSwapButton {
     font-size: 18px;
-    background-color: #e67e22;
+    background-color: #E67E22;
+    color: #FFFFFF;
     align-self: center;
+}
+
+#teamSwapButton:hover {
+    background-color: #FF7700;
+    cursor: pointer;
+}
+
+#teamSwapButton:active {
+    background-color: #b35300;
 }
 
 .author-label {

@@ -1,5 +1,5 @@
-const MAIN_TIME = 10 * 60; // 10 minutes game time
-const PENALTY_TIME = 60; // 60 seconds penalty time
+const MAIN_TIME = 10 * 60 * 1000; // 10 minutes game time in millis
+const PENALTY_TIME = 60 * 1000; // 60 seconds penalty time in millis
 
 class GoalTracker {
     constructor(teamGoalCountId, decrementButtonId, incrementButtonId) {
@@ -16,7 +16,7 @@ class GoalTracker {
     updateGoalDisplay() {
         document.getElementById(this.teamGoalCountId).textContent = this.goals;
         if (this.decrementButtonId != null) {
-            document.getElementById(this.decrementButtonId).disabled = (this.goals == 0);
+            document.getElementById(this.decrementButtonId).disabled = (this.goals === 0);
         }
     }
 
@@ -40,11 +40,18 @@ let goalTrackers = [
 ];
 
 class CountdownTimer {
-    constructor(totalTime, remainingTimeId, toggleButtonId) {
+    // long this.totalTime
+    // String this.remainingTimeId
+    // String this.toggleButtonId
+    // Interval this.timerInterval
+    // boolean this.timerRunning
+    constructor(totalTime, remainingTimeId, toggleButtonId, resetButtonId) {
         this.totalTime = totalTime;
         this.timeLeft = totalTime;
+        this.endTime = -1;
         this.remainingTimeId = remainingTimeId;
         this.toggleButtonId = toggleButtonId;
+        this.resetButtonId = resetButtonId;
         this.timerInterval = null;
         this.timerRunning = false;
 
@@ -53,8 +60,9 @@ class CountdownTimer {
     }
 
     #updateTimer() {
-        const minutes = Math.floor(this.timeLeft / 60);
-        const seconds = (this.timeLeft % 60);
+        const timeLeftSeconds = Math.floor(this.timeLeft / 1000);
+        const minutes = Math.floor(timeLeftSeconds / 60);
+        const seconds = (timeLeftSeconds % 60);
         document.getElementById(this.remainingTimeId).textContent =
             `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
     }
@@ -67,25 +75,31 @@ class CountdownTimer {
         if (!this.timerRunning) {
             return;
         }
+        const currentTime = new Date().getTime();
+        this.timeLeft = this.endTime - currentTime;
         clearInterval(this.timerInterval);
         this.timerRunning = false;
     }
 
     resumeTimer() {
+        const currentTime = new Date().getTime();
         document.getElementById(this.remainingTimeId).style.color =
             this.timerActiveColor;
+        document.getElementById(this.resetButtonId).disabled = false;
         if (this.timerRunning) {
             return;
         }
+        this.endTime = currentTime + this.timeLeft;
         this.timerRunning = true;
         this.timerInterval = setInterval(() => {
+            const currentTime = new Date().getTime();
+            this.timeLeft = this.endTime - currentTime;
             if (this.timeLeft > 0) {
-                this.timeLeft--;
                 this.#updateTimer();
             } else {
                 this.resetTimer();
             }
-        }, 1000);
+        }, 50);
     }
 
     toggleTimer() {
@@ -114,8 +128,9 @@ class CountdownTimer {
             this.timerDeactiveColor;
         this.#updateTimer();
         this.timerRunning = false;
-            document.getElementById(this.toggleButtonId).textContent =
-                "⏵";
+        document.getElementById(this.toggleButtonId).textContent =
+            "⏵";
+        document.getElementById(this.resetButtonId).disabled = true;
     }
 
     setTotalTime(totalTime) {
@@ -128,12 +143,12 @@ class CountdownTimer {
     }
 }
 
-let mainTimer = new CountdownTimer(MAIN_TIME, "mainTimer", "mainTimerToggleButton");
+let mainTimer = new CountdownTimer(MAIN_TIME, "mainTimer", "mainTimerToggleButton", "mainTimerResetButton");
 let penaltyTimers = [
-    new CountdownTimer(PENALTY_TIME, "penaltyTimer1", "penaltyTimer1toggleButton"),
-    new CountdownTimer(PENALTY_TIME, "penaltyTimer2", "penaltyTimer2toggleButton"),
-    new CountdownTimer(PENALTY_TIME, "penaltyTimer3", "penaltyTimer3toggleButton"),
-    new CountdownTimer(PENALTY_TIME, "penaltyTimer4", "penaltyTimer4toggleButton")
+    new CountdownTimer(PENALTY_TIME, "penaltyTimer1", "penaltyTimer1toggleButton", "penaltyTimer1resetButton"),
+    new CountdownTimer(PENALTY_TIME, "penaltyTimer2", "penaltyTimer2toggleButton", "penaltyTimer2resetButton"),
+    new CountdownTimer(PENALTY_TIME, "penaltyTimer3", "penaltyTimer3toggleButton", "penaltyTimer3resetButton"),
+    new CountdownTimer(PENALTY_TIME, "penaltyTimer4", "penaltyTimer4toggleButton", "penaltyTimer4resetButton")
 ];
 
 function swapTeams() {
