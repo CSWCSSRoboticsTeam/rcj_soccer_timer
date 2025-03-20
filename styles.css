@@ -94,13 +94,13 @@ body {
 }
 
 #team-yellow {
-    background-color: yellow;
-    color: black;
+    background-color: #FFFF20;
+    color: #383838;
 }
 
 #team-blue {
-    background-color: blue;
-    color: white;
+    background-color: #2020FF;
+    color: #EEEEEE;
 }
 
 .timer-container {
