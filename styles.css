@@ -211,24 +211,24 @@ body {
     transform: scale(100%);
 }
 
-#realTimeLabel {
-    color: rgba(0, 0, 0, 65%);
-}
-
-#authorLabel {
-    color: #808080;
-}
-
-#realTimeLabel, #authorLabel {
+#realTimeLabel, #authorLabel, #openSourceLabel {
     text-align: center;
 }
 
 #realTimeLabel {
+    color: rgba(0, 0, 0, 65%);
     margin-top: 10px;
     font-size: 16px;
 }
 
 #authorLabel {
+    color: #808080;
     margin-top: 5px;
     font-size: 10px;
+}
+
+#openSourceLabel {
+    color: #808080;
+    margin-top: 2px;
+    font-size: 8px;
 }
