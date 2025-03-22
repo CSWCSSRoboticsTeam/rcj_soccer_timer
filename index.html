@@ -9,6 +9,15 @@
 </head>
 <body>
 
+    <noscript>
+        <div class="unselectable" id="noscript-label">
+            JavaScript disabled.<br>
+            <br>
+            This timer needs JS to run.<br>
+            Please enable JavaScript.
+        </div>
+    </noscript>
+
     <input type="text" id="description-info" value="HK Soccer Robotics Invitational"/>
 
     <input type="text" id="round-info" value="Round 1"/>
@@ -41,8 +50,8 @@
 
     <div class="main-timer-container">
         <div>
-            <span>Main Timer</span>
-            <div id="mainTimer" class="timer-display">00:00</div>
+            <span class="unselectable">Main Timer</span>
+            <div id="mainTimer" class="timer-display" onclick="askForMainTime()">00:00</div>
             <div class="controls">
                 <button id="mainTimerToggleButton" class="timer-toggle-button" onclick="mainTimer.toggleTimer()">⏵</button>
                 <button id="mainTimerResetButton" class="timer-reset-button" onclick="mainTimer.resetTimer()">⟳</button>
@@ -52,8 +61,8 @@
 
     <div class="timer-container">
         <div class="penalty-timer">
-            <span>Robot 1</span>
-            <div id="penaltyTimer1" class="timer-display">00:00</div>
+            <span class="unselectable">Robot 1</span>
+            <div id="penaltyTimer1" class="timer-display" onclick="askForPenaltyTime()">00:00</div>
             <div class="controls">
                 <button id="penaltyTimer1toggleButton" class="timer-toggle-button" onclick="penaltyTimers[0].toggleTimer()">⏵</button>
                 <button id="penaltyTimer1resetButton" class="timer-reset-button" onclick="penaltyTimers[0].resetTimer()">⟳</button>
@@ -61,8 +70,8 @@
         </div>
 
         <div class="penalty-timer">
-            <span>Robot 2</span>
-            <div id="penaltyTimer2" class="timer-display">00:00</div>
+            <span class="unselectable">Robot 2</span>
+            <div id="penaltyTimer2" class="timer-display" onclick="askForPenaltyTime()">00:00</div>
             <div class="controls">
                 <button id="penaltyTimer2toggleButton" class="timer-toggle-button" onclick="penaltyTimers[1].toggleTimer()">⏵</button>
                 <button id="penaltyTimer2resetButton" class="timer-reset-button" onclick="penaltyTimers[1].resetTimer()">⟳</button>
@@ -70,8 +79,8 @@
         </div>
 
         <div class="penalty-timer">
-            <span>Robot 3</span>
-            <div id="penaltyTimer3" class="timer-display">00:00</div>
+            <span class="unselectable">Robot 3</span>
+            <div id="penaltyTimer3" class="timer-display" onclick="askForPenaltyTime()">00:00</div>
             <div class="controls">
                 <button id="penaltyTimer3toggleButton" class="timer-toggle-button" onclick="penaltyTimers[2].toggleTimer()">⏵</button>
                 <button id="penaltyTimer3resetButton" class="timer-reset-button" onclick="penaltyTimers[2].resetTimer()">⟳</button>
@@ -79,8 +88,8 @@
         </div>
 
         <div class="penalty-timer">
-            <span>Robot 4</span>
-            <div id="penaltyTimer4" class="timer-display">00:00</div>
+            <span class="unselectable">Robot 4</span>
+            <div id="penaltyTimer4" class="timer-display" onclick="askForPenaltyTime()">00:00</div>
             <div class="controls">
                 <button id="penaltyTimer4toggleButton" class="timer-toggle-button" onclick="penaltyTimers[3].toggleTimer()">⏵</button>
                 <button id="penaltyTimer4resetButton" class="timer-reset-button" onclick="penaltyTimers[3].resetTimer()">⟳</button>
@@ -88,13 +97,15 @@
         </div>
     </div>
 
-    <span class="author-label">2025 CSWCSS Robotics Team</span>
+    <span class="unselectable" id="realTimeLabel">
+        2022 Aug 11 (Thu) 12:18:00 AM
+    </span>
+    <span class="unselectable" id="authorLabel">
+        <span id="authorLabelYear">2025</span> CSWCSS Robotics Team
+    </span>
 
     <script>
-        mainTimer.resetTimer();
-        penaltyTimers.forEach(penaltyTimer => {
-            penaltyTimer.resetTimer();
-        });
+        mainBegin();
     </script>
 </body>
 </html>

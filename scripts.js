@@ -1,6 +1,8 @@
 const MAIN_TIME = 10 * 60 * 1000; // 10 minutes game time in millis
 const PENALTY_TIME = 60 * 1000; // 60 seconds penalty time in millis
 
+const INTERVAL_SEPARATION = 50; // 50 ms separation between intervals => 20Hz refresh rate
+
 class GoalTracker {
     constructor(teamGoalCountId, decrementButtonId, incrementButtonId) {
         this.teamGoalCountId = teamGoalCountId;
@@ -39,6 +41,9 @@ let goalTrackers = [
     new GoalTracker("team2GoalCount", "team2DecrementButton", "team2IncrementButton")
 ];
 
+// Use new Date() instead of counting intervals ran,
+// as new Date() retrieves accurate and consistent time from system,
+// but intervals are not guaranteed to run sharply at desired frequency.
 class CountdownTimer {
     // long this.totalTime
     // String this.remainingTimeId
@@ -99,7 +104,7 @@ class CountdownTimer {
             } else {
                 this.resetTimer();
             }
-        }, 50);
+        }, INTERVAL_SEPARATION);
     }
 
     toggleTimer() {
@@ -135,7 +140,7 @@ class CountdownTimer {
 
     setTotalTime(totalTime) {
         this.totalTime = totalTime;
-        resetTimer();
+        this.resetTimer();
     }
 
     getTotalTime() {
@@ -150,6 +155,70 @@ let penaltyTimers = [
     new CountdownTimer(PENALTY_TIME, "penaltyTimer3", "penaltyTimer3toggleButton", "penaltyTimer3resetButton"),
     new CountdownTimer(PENALTY_TIME, "penaltyTimer4", "penaltyTimer4toggleButton", "penaltyTimer4resetButton")
 ];
+
+function askForMainTime() {
+    const prevMainTime = mainTimer.getTotalTime();
+    const prevMainTimeSeconds = Math.floor(prevMainTime / 1000);
+
+    const newMainTimeSecondsStr =
+        prompt(
+            "Enter Countdown Time for a Round (in seconds)\n" +
+            "(Hint: enter 600 for 10 minutes, enter 300 for 5 minutes)"
+            , prevMainTimeSeconds);
+    if (newMainTimeSecondsStr == null) {
+        // user cancelled
+        return;
+    }
+
+    const newMainTimeSeconds = parseInt(newMainTimeSecondsStr, 10);
+    if (isNaN(newMainTimeSeconds)) {
+        alert("Error: countdown time is not a number.");
+        return;
+    }
+    if (newMainTimeSeconds < 0) {
+        alert("Error: countdown time cannot be negative.");
+        return;
+    }
+    if (newMainTimeSeconds == 0) {
+        alert("Error: countdown time cannot be 0.");
+        return;
+    }
+    const newMainTime = newMainTimeSeconds * 1000;
+    mainTimer.setTotalTime(newMainTime);
+}
+
+function askForPenaltyTime() {
+    const prevPenaltyTime = penaltyTimers[0].getTotalTime();
+    const prevPenaltyTimeSeconds = Math.floor(prevPenaltyTime / 1000);
+
+    const newPenaltyTimeSecondsStr =
+        prompt(
+            "Enter Countdown Time for a Penalty (in seconds)\n" +
+            "(Hint: enter 60 for 60 seconds, enter 30 for 30 seconds)"
+            , prevPenaltyTimeSeconds);
+    if (newPenaltyTimeSecondsStr == null) {
+        // user cancelled
+        return;
+    }
+
+    const newPenaltyTimeSeconds = parseInt(newPenaltyTimeSecondsStr, 10);
+    if (isNaN(newPenaltyTimeSeconds)) {
+        alert("Error: countdown time is not a number.");
+        return;
+    }
+    if (newPenaltyTimeSeconds < 0) {
+        alert("Error: countdown time cannot be negative.");
+        return;
+    }
+    if (newPenaltyTimeSeconds == 0) {
+        alert("Error: countdown time cannot be 0.");
+        return;
+    }
+    const newPenaltyTime = newPenaltyTimeSeconds * 1000;
+    penaltyTimers.forEach(penaltyTimer => {
+        penaltyTimer.setTotalTime(newPenaltyTime);
+    });
+}
 
 function swapTeams() {
     let teamYellow = document.getElementById("team-yellow");
@@ -175,4 +244,78 @@ function swapTeams() {
 
     teamBlue.appendChild(teamYellow.removeChild(teamAtYellow));
     teamYellow.appendChild(teamBlue.removeChild(teamAtBlue));
+}
+
+function getHour12(hour) {
+    hour %= 12;
+    if (hour == 0) {
+        return 12;
+    } else {
+        return hour;
+    }
+}
+
+function guaranteePaddingZero(value) {
+    return `${value < 10 ? "0" : ""}${value}`;
+}
+
+function mainBegin() {
+    mainTimer.resetTimer();
+    penaltyTimers.forEach(penaltyTimer => {
+        penaltyTimer.resetTimer();
+    });
+
+    setInterval(updateRealTimeDisplay, INTERVAL_SEPARATION);
+}
+
+function updateRealTimeDisplay() {
+    const monthArray = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+    ];
+    const weekArray = [
+        "Sun",
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat"
+    ];
+
+    // get current timestamp
+    const date = new Date();
+
+    // convert into human-readable string formats
+    const year = date.getFullYear();
+    const month = monthArray[date.getMonth()];
+    const dayInMonth = date.getDate();
+    const dayInWeek = weekArray[date.getDay()];
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+    const millis = date.getMilliseconds();
+
+    const timeSep = ((millis % 1000) < 500) ? ":" : " ";
+    const ampm = hours < 12 ? "AM" : "PM";
+
+    // combine into a single string to be displayed
+    const dateTimeString =
+        `${year} ${month} ${dayInMonth} (${dayInWeek}) ` +
+        getHour12(hours) + timeSep +
+        guaranteePaddingZero(minutes) + timeSep +
+        guaranteePaddingZero(seconds) + ` ${ampm}`;
+    
+    document.getElementById("realTimeLabel").textContent = dateTimeString;
+    document.getElementById("authorLabelYear").textContent = year;
 }

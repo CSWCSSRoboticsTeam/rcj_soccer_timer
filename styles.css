@@ -3,7 +3,23 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 20px;
+}
+
+.unselectable, .team-counter, .timer-display {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#noscript-label {
+    text-align: center;
+    font-size: 64px;
+    color: yellow;
+    background-color: red;
+    padding: 24px;
 }
 
 #description-info, #round-info {
@@ -71,19 +87,22 @@ body {
 }
 
 .team-count-button:hover {
-    background-color: #F0F0F0;
+    background-color: #E0E0E0;
     color: #202020;
     cursor: pointer;
+    transform: scale(125%);
 }
 
 .team-count-button:active {
     background-color: #A0A0A0;
     color: #000000;
+    transform: scale(100%);
 }
 
 .team-count-button:disabled {
     background-color: #D0D0D0;
     color: #404040;
+    transform: none;
     opacity: 50%;
     cursor: not-allowed;
 }
@@ -128,6 +147,7 @@ body {
 .timer-display {
     font-size: 30px;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .controls {
@@ -146,47 +166,69 @@ body {
 }
 
 .timer-toggle-button, .timer-reset-button {
-    background-color: #3498DB;
+    background-color: #20bf20;
     color: #FFFFFF;
     font-size: 16px;
     width: 45px;
 }
 
 .timer-toggle-button:hover, .timer-reset-button:hover {
-    background-color: #3CB1FF;
+    background-color: #00E000;
     cursor: pointer;
+    transform: scale(105%);
 }
 
 .timer-toggle-button:active, .timer-reset-button:active {
-    background-color: #2777AD;
+    background-color: #199319;
+    transform: scale(100%);
 }
 
 .timer-toggle-button:disabled, .timer-reset-button:disabled {
-    background-color: #3498DB;
+    background-color: #008000;
     color: #FFFFFF;
+    transform: none;
     opacity: 50%;
     cursor: default;
 }
 
 #teamSwapButton {
     font-size: 18px;
-    background-color: #E67E22;
+    background-color: #ff656f;
     color: #FFFFFF;
     align-self: center;
 }
 
 #teamSwapButton:hover {
-    background-color: #FF7700;
+    background-color: #ff3341;
     cursor: pointer;
+    transform: translateY(-2px);
+    transform: scale(112%);
 }
 
 #teamSwapButton:active {
-    background-color: #b35300;
+    background-color: #d64953;
+    transform: translateY(5px);
+    transform: scale(100%);
 }
 
-.author-label {
-    margin-top: 20px;
-    font-size: 12px;
-    color: gray;
+#realTimeLabel {
+    color: rgba(0, 0, 0, 65%);
+}
+
+#authorLabel {
+    color: #808080;
+}
+
+#realTimeLabel, #authorLabel {
     text-align: center;
+}
+
+#realTimeLabel {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+#authorLabel {
+    margin-top: 5px;
+    font-size: 10px;
 }
