@@ -27,9 +27,9 @@
             <div class="teamSub" id="team1">
                 <input type="text" class="team-name" value="Explosion" />
                 <div class="team-counter">
-                    <button class="team-count-button" id="team1DecrementButton" onclick="goalTrackers[0].decrementGoalCount()" disabled>-</button>
+                    <button class="team-count-button" id="team1DecrementButton" onclick="goalTrackers[0].decrementGoalCount()" disabled>&#xFF0D;</button>
                     <span class="team-counter-value" id="team1GoalCount">0</span>
-                    <button class="team-count-button" id="team1IncrementButton" onclick="goalTrackers[0].incrementGoalCount()">+</button>
+                    <button class="team-count-button" id="team1IncrementButton" onclick="goalTrackers[0].incrementGoalCount()">&#xFF0B;</button>
                 </div>
             </div>
         </div>
@@ -40,9 +40,9 @@
             <div class="teamSub" id="team2">
                 <input type="text" class="team-name" value="中山大笨象" />
                 <div class="team-counter">
-                    <button class="team-count-button" id="team2DecrementButton" onclick="goalTrackers[1].decrementGoalCount()" disabled>-</button>
+                    <button class="team-count-button" id="team2DecrementButton" onclick="goalTrackers[1].decrementGoalCount()" disabled>&#xFF0D;</button>
                     <span class="team-counter-value" id="team2GoalCount">0</span>
-                    <button class="team-count-button" id="team2IncrementButton" onclick="goalTrackers[1].incrementGoalCount()">+</button>
+                    <button class="team-count-button" id="team2IncrementButton" onclick="goalTrackers[1].incrementGoalCount()">&#xFF0B;</button>
                 </div>
             </div>
         </div>
@@ -53,8 +53,8 @@
             <span class="unselectable">Main Timer</span>
             <div id="mainTimer" class="timer-display" onclick="askForMainTime()">00:00</div>
             <div class="controls">
-                <button id="mainTimerToggleButton" class="timer-toggle-button" onclick="mainTimer.toggleTimer()">⏵</button>
-                <button id="mainTimerResetButton" class="timer-reset-button" onclick="mainTimer.resetTimer()">⟳</button>
+                <button id="mainTimerToggleButton" class="timer-toggle-button" onclick="mainTimer.toggleTimer()">&#x23F5;</button>
+                <button id="mainTimerResetButton" class="timer-reset-button" onclick="mainTimer.resetTimer()">&#x27F3;</button>
             </div>
         </div>
     </div>
@@ -64,8 +64,8 @@
             <span class="unselectable">Robot 1</span>
             <div id="penaltyTimer1" class="timer-display" onclick="askForPenaltyTime()">00:00</div>
             <div class="controls">
-                <button id="penaltyTimer1toggleButton" class="timer-toggle-button" onclick="penaltyTimers[0].toggleTimer()">⏵</button>
-                <button id="penaltyTimer1resetButton" class="timer-reset-button" onclick="penaltyTimers[0].resetTimer()">⟳</button>
+                <button id="penaltyTimer1toggleButton" class="timer-toggle-button" onclick="penaltyTimers[0].toggleTimer()">&#x23F5;</button>
+                <button id="penaltyTimer1resetButton" class="timer-reset-button" onclick="penaltyTimers[0].resetTimer()">&#x27F3;</button>
             </div>
         </div>
 
@@ -73,8 +73,8 @@
             <span class="unselectable">Robot 2</span>
             <div id="penaltyTimer2" class="timer-display" onclick="askForPenaltyTime()">00:00</div>
             <div class="controls">
-                <button id="penaltyTimer2toggleButton" class="timer-toggle-button" onclick="penaltyTimers[1].toggleTimer()">⏵</button>
-                <button id="penaltyTimer2resetButton" class="timer-reset-button" onclick="penaltyTimers[1].resetTimer()">⟳</button>
+                <button id="penaltyTimer2toggleButton" class="timer-toggle-button" onclick="penaltyTimers[1].toggleTimer()">&#x23F5;</button>
+                <button id="penaltyTimer2resetButton" class="timer-reset-button" onclick="penaltyTimers[1].resetTimer()">&#x27F3;</button>
             </div>
         </div>
 
@@ -82,8 +82,8 @@
             <span class="unselectable">Robot 3</span>
             <div id="penaltyTimer3" class="timer-display" onclick="askForPenaltyTime()">00:00</div>
             <div class="controls">
-                <button id="penaltyTimer3toggleButton" class="timer-toggle-button" onclick="penaltyTimers[2].toggleTimer()">⏵</button>
-                <button id="penaltyTimer3resetButton" class="timer-reset-button" onclick="penaltyTimers[2].resetTimer()">⟳</button>
+                <button id="penaltyTimer3toggleButton" class="timer-toggle-button" onclick="penaltyTimers[2].toggleTimer()">&#x23F5;</button>
+                <button id="penaltyTimer3resetButton" class="timer-reset-button" onclick="penaltyTimers[2].resetTimer()">&#x27F3;</button>
             </div>
         </div>
 
@@ -91,17 +91,23 @@
             <span class="unselectable">Robot 4</span>
             <div id="penaltyTimer4" class="timer-display" onclick="askForPenaltyTime()">00:00</div>
             <div class="controls">
-                <button id="penaltyTimer4toggleButton" class="timer-toggle-button" onclick="penaltyTimers[3].toggleTimer()">⏵</button>
-                <button id="penaltyTimer4resetButton" class="timer-reset-button" onclick="penaltyTimers[3].resetTimer()">⟳</button>
+                <button id="penaltyTimer4toggleButton" class="timer-toggle-button" onclick="penaltyTimers[3].toggleTimer()">&#x23F5;</button>
+                <button id="penaltyTimer4resetButton" class="timer-reset-button" onclick="penaltyTimers[3].resetTimer()">&#x27F3;</button>
             </div>
         </div>
     </div>
 
+    <span class="unselectable" id="timeZoneLabel">
+        Asia/Hong Kong GMT+0800 (Hong Kong Time)
+    </span>
     <span class="unselectable" id="realTimeLabel">
         2022 Aug 11 (Thu) 12:18:00 AM
     </span>
     <span class="unselectable" id="authorLabel">
         <span id="authorLabelYear">2025</span> CSWCSS Robotics Team
+    </span>
+    <span class="unselectable" id="openSourceLabel">
+        This is an <a href="https://github.com/CSWCSSRoboticsTeam/rcj_soccer_timer/">open-source</a> software.
     </span>
 
     <script>

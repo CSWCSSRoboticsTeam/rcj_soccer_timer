@@ -111,11 +111,11 @@ class CountdownTimer {
         if (this.timerRunning) {
             this.pauseTimer();
             document.getElementById(this.toggleButtonId).textContent =
-                "⏵";
+                "\u23F5"; // "⏵";
         } else {
             this.resumeTimer();
             document.getElementById(this.toggleButtonId).textContent =
-                "⏸";
+                "\u23F8"; // "⏸";
         }
     }
 
@@ -134,7 +134,7 @@ class CountdownTimer {
         this.#updateTimer();
         this.timerRunning = false;
         document.getElementById(this.toggleButtonId).textContent =
-            "⏵";
+            "\u23F5"; // "⏵";
         document.getElementById(this.resetButtonId).disabled = true;
     }
 
@@ -266,6 +266,15 @@ function mainBegin() {
     });
 
     setInterval(updateRealTimeDisplay, INTERVAL_SEPARATION);
+
+    // Europe/London, Asia/Hong Kong
+    const timeZoneLocation = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    // GMT+0100 (British Summer Time), GMT+0800 (Hong Kong Time)
+    const timeZoneDescription = new Date().toString().match(/([A-Z]+[\+-][0-9]+.*)/)[1];
+
+    document.getElementById("timeZoneLabel").textContent =
+        `${timeZoneLocation} ${timeZoneDescription}`;
 }
 
 function updateRealTimeDisplay() {
